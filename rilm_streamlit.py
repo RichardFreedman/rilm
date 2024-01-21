@@ -2,7 +2,6 @@ import streamlit as st
 import streamlit.components.v1 as components
 from pathlib import Path
 import requests
-import os
 # from decouple import AutoConfig # Install python-decouple
 import requests # Install requests
 import pandas as pd
