@@ -452,6 +452,8 @@ def scatter_plot(final_results, term_threshold=10, legend=False):
     return fig_scatter
 
 # User Enters Search Term
+st.header("RILM Data Visualizations")
+st.write("Enter a search term in the box below.  Then use the options at left to see histograms and scatterplots of terms.  You can also view networks of terms and authors.  Use the Filter option to limit your results in various ways.")
 st.header("Subject Search")
 search_term = st.text_input("Enter Search Term")
 if len(search_term) == 0:
