@@ -53,7 +53,7 @@ URLS = {
 }
 
 HEADERS = {
-    "Authorization": f"Bearer {st.secrets["SECRET_TOKEN"]}"
+    "Authorization": st.secrets["SECRET_TOKEN"]
 }
 
 
