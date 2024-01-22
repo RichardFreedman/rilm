@@ -478,7 +478,7 @@ else:
 # st.subheader("Search Results")
 
 st.subheader("Filter Your Search")
-if filtered_results.empty:
+if st.session_state.filtered_results.empty:
     st.write("No results to filter; try another search")
 else:
     filter_option = st.checkbox("Filter Your Search")
