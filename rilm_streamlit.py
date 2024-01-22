@@ -52,11 +52,13 @@ URLS = {
     "biocards": "https://ibis2.rilm.org/api/bio_cards/musicologist_places"
 }
 
+# HEADERS = {
+#     "Authorization": st.secrets["SECRET_TOKEN"]
+# }
+
 HEADERS = {
-    "Authorization": st.secrets["SECRET_TOKEN"]
+    "Authorization": f"Bearer {st.secrets["SECRET_TOKEN"]}"
 }
-
-
 # st.cache speeds things up by holding data in cache
 
 # the functions
