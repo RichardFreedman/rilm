@@ -479,7 +479,7 @@ else:
 st.subheader("Filter Your Search")
 # filter_option = st.checkbox("Filter Your Search")
 # if filter_option:
-if len(simple_search_results) == 0:
+if simple_search_results is None:
     st.write("No results; please enter a new search term")
 else:
     with st.form('my_form'):
