@@ -531,9 +531,10 @@ if st.session_state.simple_search_results is not None and not st.session_state.s
 
 
 if st.sidebar.checkbox("Show Histogram of Results by Term"):
+    term_count = st.session_state.simple_search_results['term'].nunique()
     num_terms = st.sidebar.slider('Adjust Number of Terms in Histogram', 
                                     min_value=5, 
-                                    max_value=25, 
+                                    max_value=term_count, 
                                     value=10, 
                                     step=1)
     st.plotly_chart(term_hist_px(st.session_state.filtered_results, num_terms=num_terms))
