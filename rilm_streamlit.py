@@ -518,7 +518,8 @@ if filtered_results is not None and not filtered_results.empty:
             st.write("Your filtered search has " + str(st.session_state.filtered_results['full_id'].nunique()) + " unique RILM items")
 
 else:
-    st.write("No results; please enter a new search term")
+    st.warning("No data available.")
+    # st.write("No results; please enter a new search term")
 
 if st.sidebar.checkbox("Show Histogram of Results by Term"):
     num_terms = st.sidebar.slider('Adjust Number of Terms in Histogram', 
