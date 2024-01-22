@@ -531,80 +531,80 @@ if st.session_state.simple_search_results is not None and not st.session_state.s
         if 'filtered_results' in st.session_state:
             st.write("Your filtered search has " + str(st.session_state.filtered_results['full_id'].nunique()) + " unique RILM items")
 
-
-if st.sidebar.checkbox("Show Histogram of Results by Term"):
-    term_count = st.session_state.simple_search_results['term'].nunique()
-    num_terms = st.sidebar.slider('Adjust Number of Terms in Histogram', 
-                                    min_value=5, 
-                                    max_value=term_count, 
-                                    value=10, 
-                                    step=1)
-    st.plotly_chart(term_hist_px(st.session_state.filtered_results, num_terms=num_terms))
-# 
-if st.sidebar.checkbox("Show Scatterplot of Results by Term"):
-    # check max count of any term, which is used in slider for scatter plot
-    counts = st.session_state.filtered_results['term'].value_counts()
-    most_common_value = counts.idxmax()
-    max_count = counts.max()
-    # create slider for plot threshold of term counts
-    count_threshold = st.sidebar.slider('Adjust Threshold for Minimum Number of Results for Each Term in Chart', 
+if not st.session_state.filtered_results.empty:
+    if st.sidebar.checkbox("Show Histogram of Results by Term"):
+        term_count = st.session_state.simple_search_results['term'].nunique()
+        num_terms = st.sidebar.slider('Adjust Number of Terms in Histogram', 
                                         min_value=5, 
-                                        max_value=int(max_count), 
-                                        value=round(max_count/5), 
-                                        step=10)
-    st.plotly_chart(scatter_plot(st.session_state.filtered_results, term_threshold=count_threshold))
+                                        max_value=term_count, 
+                                        value=10, 
+                                        step=1)
+        st.plotly_chart(term_hist_px(st.session_state.filtered_results, num_terms=num_terms))
+    # 
+    if st.sidebar.checkbox("Show Scatterplot of Results by Term"):
+        # check max count of any term, which is used in slider for scatter plot
+        counts = st.session_state.filtered_results['term'].value_counts()
+        most_common_value = counts.idxmax()
+        max_count = counts.max()
+        # create slider for plot threshold of term counts
+        count_threshold = st.sidebar.slider('Adjust Threshold for Minimum Number of Results for Each Term in Chart', 
+                                            min_value=5, 
+                                            max_value=int(max_count), 
+                                            value=round(max_count/5), 
+                                            step=10)
+        st.plotly_chart(scatter_plot(st.session_state.filtered_results, term_threshold=count_threshold))
 
-# concept map
-if st.sidebar.checkbox("Show Concept Map for Given Search Results"):
+    # concept map
+    if st.sidebar.checkbox("Show Concept Map for Given Search Results"):
 
-    weight_threshold = st.sidebar.slider('Adjust Weight Treshold for Concept Map', 
-                                    min_value=0, 
-                                    max_value=10, 
-                                    value=5, 
-                                    step=1)
-    # call the function
-    concept_map  = create_concept_map(st.session_state.filtered_results, weight_threshold=weight_threshold)
+        weight_threshold = st.sidebar.slider('Adjust Weight Treshold for Concept Map', 
+                                        min_value=0, 
+                                        max_value=10, 
+                                        value=5, 
+                                        step=1)
+        # call the function
+        concept_map  = create_concept_map(st.session_state.filtered_results, weight_threshold=weight_threshold)
+            # Display HTML in Streamlit size of components should match network function above
+        with open("concept_graph.html", "r") as f:
+            concept_html_string = f.read()
+            components.html(concept_html_string, height=1000, width=1000)
+
+    # now single author graph
+    if st.sidebar.checkbox("Show Single Author Graph"):
+        author_list = st.session_state.filtered_results['author'].unique()
+        selected_author = st.sidebar.selectbox('Select an author', author_list)
+        if len(selected_author) == 0:
+            st.sidebar.write("Please select an author from the list of results")
+        else:
+        # Call the function
+            author_graph = one_author_graph(selected_author, st.session_state.filtered_results)
+        # Display HTML in Streamlit
+        with open("author_graph.html", "r") as f:
+            author_html_string = f.read()
+        # "st." not needed with components
+        # here the height must be integer!
         # Display HTML in Streamlit size of components should match network function above
-    with open("concept_graph.html", "r") as f:
-        concept_html_string = f.read()
-        components.html(concept_html_string, height=1000, width=1000)
-
-# now single author graph
-if st.sidebar.checkbox("Show Single Author Graph"):
-    author_list = st.session_state.filtered_results['author'].unique()
-    selected_author = st.sidebar.selectbox('Select an author', author_list)
-    if len(selected_author) == 0:
-        st.sidebar.write("Please select an author from the list of results")
-    else:
-    # Call the function
-        author_graph = one_author_graph(selected_author, st.session_state.filtered_results)
-    # Display HTML in Streamlit
-    with open("author_graph.html", "r") as f:
-        author_html_string = f.read()
-    # "st." not needed with components
-    # here the height must be integer!
-    # Display HTML in Streamlit size of components should match network function above
-    if len(selected_author) > 1:
-        components.html(author_html_string, height=1000, width=1000)
+        if len(selected_author) > 1:
+            components.html(author_html_string, height=1000, width=1000)
 
 
-if st.sidebar.checkbox("Show Multi-Author Graph"):
-    author_list = st.session_state.filtered_results['author'].unique()
-    # selected_authors = st.sidebar.multiselect('Select authors', author_list)
-    author_impact_ratio = st.sidebar.slider('Adjust Author Impact Ratio', 
-                                    min_value=.1, 
-                                    max_value=float(10), 
-                                    value=.3, 
-                                    step=.1)
-    # Call the function
-    author_community_graph = graph_author_communities(st.session_state.filtered_results, author_impact_ratio)
-    # Display HTML in Streamlit
+    if st.sidebar.checkbox("Show Multi-Author Graph"):
+        author_list = st.session_state.filtered_results['author'].unique()
+        # selected_authors = st.sidebar.multiselect('Select authors', author_list)
+        author_impact_ratio = st.sidebar.slider('Adjust Author Impact Ratio', 
+                                        min_value=.1, 
+                                        max_value=float(10), 
+                                        value=.3, 
+                                        step=.1)
+        # Call the function
+        author_community_graph = graph_author_communities(st.session_state.filtered_results, author_impact_ratio)
+        # Display HTML in Streamlit
 
-    with open("author_community_graph.html", "r") as f:
-        html_string = f.read()
-    # "st." not needed with components
-    # here the height must be integer!
-    # Display HTML in Streamlit size of components should match network function above
-        components.html(html_string, height=1000, width=1000)
+        with open("author_community_graph.html", "r") as f:
+            html_string = f.read()
+        # "st." not needed with components
+        # here the height must be integer!
+        # Display HTML in Streamlit size of components should match network function above
+            components.html(html_string, height=1000, width=1000)
 
     
