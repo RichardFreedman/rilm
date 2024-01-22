@@ -478,6 +478,9 @@ else:
 
 # st.subheader("Search Results")
 if st.session_state.simple_search_results is not None and not st.session_state.simple_search_results.empty:
+    if 'filtered_results' not in st.session_state:
+        st.session_state.filtered_results = pd.DataFrame()
+    st.session_state.filtered_results = st.session_state.simple_search_results
     st.subheader("Filter Your Search")
     filter_option = st.checkbox("Filter Your Search")
     if filter_option:
