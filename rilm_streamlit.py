@@ -55,9 +55,9 @@ URLS = {
 # HEADERS = {
 #     "Authorization": st.secrets["SECRET_TOKEN"]
 # }
-
+BEARER_TOKEN = st.secrets["SECRET_TOKEN"]
 HEADERS = {
-    "Authorization": f"Bearer {st.secrets["SECRET_TOKEN"]}"
+    "Authorization": f"Bearer {BEARER_TOKEN}"
 }
 # st.cache speeds things up by holding data in cache
 
