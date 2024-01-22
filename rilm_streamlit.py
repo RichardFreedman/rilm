@@ -531,7 +531,7 @@ if st.session_state.simple_search_results is not None and not st.session_state.s
         if 'filtered_results' in st.session_state:
             st.write("Your filtered search has " + str(st.session_state.filtered_results['full_id'].nunique()) + " unique RILM items")
 
-if not st.session_state.filtered_results.empty:
+if not st.session_state.simple_search_results.empty:
     if st.sidebar.checkbox("Show Histogram of Results by Term"):
         term_count = st.session_state.simple_search_results['term'].nunique()
         num_terms = st.sidebar.slider('Adjust Number of Terms in Histogram', 
