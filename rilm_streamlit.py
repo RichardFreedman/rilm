@@ -469,6 +469,10 @@ else:
     st.subheader("Search Results for " + "'" + search_term + "'")
     length = simple_search_results['full_id'].nunique()
     st.write("Your simple search returned " + str(length) + " unique RILM items")
+    filtered_results = simple_search_results
+    if 'filtered_results' not in st.session_state:
+            st.session_state.filtered_results = pd.DataFrame()
+        st.session_state.filtered_results = filtered_results
 
 # st.subheader("Search Results")
 
