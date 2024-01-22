@@ -493,12 +493,17 @@ if st.session_state.simple_search_results is not None and not st.session_state.s
             unique_categories = st.session_state.simple_search_results['category'].unique().tolist()
             selected_categories = st.multiselect('Select Categories', unique_categories, default=unique_categories)
             
-            select_authors = st.checkbox("Select authors")
-            if select_authors:
-                unique_authors = st.session_state.simple_search_results['author'].unique().tolist()
-                selected_authors = st.multiselect('Select Authors', unique_authors, default=unique_authors)
-            else:
-                selected_authors = st.session_state.simple_search_results['author'].unique().tolist()
+            # not used for the moment; see next option
+            # select_authors = st.checkbox("Select authors")
+            # if select_authors:
+            #     unique_authors = st.session_state.simple_search_results['author'].unique().tolist()
+            #     selected_authors = st.multiselect('Select Authors', unique_authors, default=unique_authors)
+            # else:
+            #     selected_authors = st.session_state.simple_search_results['author'].unique().tolist()
+            
+            unique_authors = st.session_state.simple_search_results['author'].unique().tolist()
+            selected_authors = st.multiselect('Select Authors', unique_authors, default=unique_authors)
+
 
             unique_terms = st.session_state.simple_search_results['term'].unique().tolist()
             # selected_terms = st.multiselect('Select terms', unique_terms, default=unique_terms)
