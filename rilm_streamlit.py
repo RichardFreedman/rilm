@@ -480,7 +480,7 @@ st.subheader("Filter Your Search")
 # filter_option = st.checkbox("Filter Your Search")
 # if filter_option:
 
-if simple_search_results is not None and not simple_search_results.empty:
+if filtered_results is not None and not filtered_results.empty:
     with st.form('my_form'):
         min_year, max_year = int(simple_search_results['year'].min()), int(simple_search_results['year'].max())
         # selected_year = st.slider('Select Year Range', min_year, max_year)
