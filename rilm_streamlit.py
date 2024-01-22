@@ -479,9 +479,8 @@ else:
 st.subheader("Filter Your Search")
 # filter_option = st.checkbox("Filter Your Search")
 # if filter_option:
-if simple_search_results is None:
-    st.write("No results; please enter a new search term")
-else:
+
+if simple_search_results is not None and not simple_search_results.empty:
     with st.form('my_form'):
         min_year, max_year = int(simple_search_results['year'].min()), int(simple_search_results['year'].max())
         # selected_year = st.slider('Select Year Range', min_year, max_year)
@@ -518,6 +517,8 @@ else:
 
             st.write("Your filtered search has " + str(st.session_state.filtered_results['full_id'].nunique()) + " unique RILM items")
 
+else:
+    st.write("No results; please enter a new search term")
 
 if st.sidebar.checkbox("Show Histogram of Results by Term"):
     num_terms = st.sidebar.slider('Adjust Number of Terms in Histogram', 
