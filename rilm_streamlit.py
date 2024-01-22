@@ -460,7 +460,9 @@ st.header("Subject Search")
 search_term = st.text_input("Enter Search Term")
 if len(search_term) == 0:
     st.write("Please enter a search term")
-    # simple_search_results = pd.DataFrame()
+    if 'simple_search_results' not in st.session_state:
+        st.session_state.simple_search_results = pd.DataFrame()
+    # st.session_state.simple_search_results = simple_search_results
 else:
     simple_search_results = simple_search(search_term)
     # convert year to integer
@@ -470,58 +472,51 @@ else:
     st.subheader("Search Results for " + "'" + search_term + "'")
     length = simple_search_results['full_id'].nunique()
     st.write("Your simple search returned " + str(length) + " unique RILM items")
-    filtered_results = simple_search_results
-    if 'filtered_results' not in st.session_state:
-        st.session_state.filtered_results = pd.DataFrame()
-    st.session_state.filtered_results = filtered_results
+    if 'simple_search_results' not in st.session_state:
+        st.session_state.simple_search_results = pd.DataFrame()
+    st.session_state.simple_search_results = simple_search_results
 
 # st.subheader("Search Results")
+if st.session_state.simple_search_results is not None and not st.session_state.simple_search_results.empty:
+    st.subheader("Filter Your Search")
+    filter_option = st.checkbox("Filter Your Search")
+    if filter_option:
+        with st.form('my_form'):
+            min_year, max_year = int(st.session_state.simple_search_results['year'].min()), int(st.session_state.simple_search_results['year'].max())
+            # selected_year = st.slider('Select Year Range', min_year, max_year)
+            selected_years = st.slider('Select Year Range', min_year, max_year, (min_year, max_year))
 
-st.subheader("Filter Your Search")
+            min_level, max_level = int(st.session_state.simple_search_results['level'].min()), int(st.session_state.simple_search_results['level'].max())
+            # selected_year = st.slider('Select Year Range', min_year, max_year)
+            selected_levels = st.slider('Select RILM Index Level Range', min_level, max_level, (min_level, max_level))
 
-filter_option = st.checkbox("Filter Your Search")
-if filter_option:
+            unique_categories = st.session_state.simple_search_results['category'].unique().tolist()
+            selected_categories = st.multiselect('Select Categories', unique_categories, default=unique_categories)
+            
+            unique_authors = st.session_state.simple_search_results['author'].unique().tolist()
+            selected_authors = st.multiselect('Select Authors', unique_authors, default=unique_authors)
 
-# if simple_search_results is not None:
-    with st.form('my_form'):
-        min_year, max_year = int(simple_search_results['year'].min()), int(simple_search_results['year'].max())
-        # selected_year = st.slider('Select Year Range', min_year, max_year)
-        selected_years = st.slider('Select Year Range', min_year, max_year, (min_year, max_year))
+            unique_terms = st.session_state.simple_search_results['term'].unique().tolist()
+            # selected_terms = st.multiselect('Select terms', unique_terms, default=unique_terms)
 
-        min_level, max_level = int(simple_search_results['level'].min()), int(simple_search_results['level'].max())
-        # selected_year = st.slider('Select Year Range', min_year, max_year)
-        selected_levels = st.slider('Select RILM Index Level Range', min_level, max_level, (min_level, max_level))
+            submitted = st.form_submit_button('Apply Filters')
 
-        unique_categories = simple_search_results['category'].unique().tolist()
-        selected_categories = st.multiselect('Select Categories', unique_categories, default=unique_categories)
-        
-        unique_authors = simple_search_results['author'].unique().tolist()
-        selected_authors = st.multiselect('Select Authors', unique_authors, default=unique_authors)
+            if submitted:
+                filtered_results = st.session_state.simple_search_results[(st.session_state.simple_search_results['year'] >= selected_years[0]) 
+                                                        & (st.session_state.simple_search_results['year'] <= selected_years[1]) & 
+                                (st.session_state.simple_search_results['level'].isin(selected_levels)) & 
+                                (st.session_state.simple_search_results['author'].isin(selected_authors)) &
+                                # (simple_search_results['term'].isin(selected_terms)) &
+                                (st.session_state.simple_search_results['category'].isin(selected_categories))
+                                ]
+                if 'filtered_results' not in st.session_state:
+                    st.session_state.filtered_results = pd.DataFrame()
+                st.session_state.filtered_results = filtered_results
 
-        unique_terms = simple_search_results['term'].unique().tolist()
-        # selected_terms = st.multiselect('Select terms', unique_terms, default=unique_terms)
+                # st.dataframe(st.session_state.filtered_results)
 
-        submitted = st.form_submit_button('Apply Filters')
+                st.write("Your filtered search has " + str(st.session_state.filtered_results['full_id'].nunique()) + " unique RILM items")
 
-        if submitted:
-            filtered_results = simple_search_results[(simple_search_results['year'] >= selected_years[0]) 
-                                                    & (simple_search_results['year'] <= selected_years[1]) & 
-                            (simple_search_results['level'].isin(selected_levels)) & 
-                            (simple_search_results['author'].isin(selected_authors)) &
-                            # (simple_search_results['term'].isin(selected_terms)) &
-                            (simple_search_results['category'].isin(selected_categories))
-                            ]
-            if 'filtered_results' not in st.session_state:
-                st.session_state.filtered_results = pd.DataFrame()
-            st.session_state.filtered_results = filtered_results
-
-            # st.dataframe(st.session_state.filtered_results)
-
-            st.write("Your filtered search has " + str(st.session_state.filtered_results['full_id'].nunique()) + " unique RILM items")
-
-# else:
-#     st.warning("No data available.")
-    # st.write("No results; please enter a new search term")
 
 if st.sidebar.checkbox("Show Histogram of Results by Term"):
     num_terms = st.sidebar.slider('Adjust Number of Terms in Histogram', 
