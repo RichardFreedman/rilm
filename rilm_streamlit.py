@@ -166,8 +166,8 @@ def one_author_graph(selected_author, results):
     author_terms_grouped = author_terms_and_values[0]
     final_pairs = _get_pairs(author_terms_grouped)
     # size must be in px.  Should also match streamlit widget with components below
-    pyvis_graph = Network(width="1000px",
-                          height="1000px",
+    pyvis_graph = Network(width="1500px",
+                          height="1500px",
                           bgcolor="black", 
                           font_color="white")
     # Set the physics layout of the network
@@ -236,8 +236,8 @@ def graph_author_communities(results, author_impact_ratio=.3):
     top_author_pairs = top_author_pairs_and_names[1]
     author_ratios = top_author_pairs_and_names[2]
     # size must be in px.  Should also match streamlit widget with components below
-    pyvis_graph = Network(width="1000px", 
-                          height="1000px", 
+    pyvis_graph = Network(width="1500px", 
+                          height="1500px", 
                           bgcolor="black", 
                           font_color="white") 
     # Set the physics layout of the network
@@ -374,8 +374,8 @@ def create_concept_map(results, weight_threshold=1):
 
     # create network
     # size must be in px.  Should also match streamlit widget with components below
-    pyvis_graph = Network(width="1000px",
-                          height="1000px",
+    pyvis_graph = Network(width="1500px",
+                          height="1500px",
                           bgcolor="black", 
                           font_color="white")
     
@@ -567,7 +567,7 @@ if not st.session_state.simple_search_results.empty:
             # Display HTML in Streamlit size of components should match network function above
         with open("concept_graph.html", "r") as f:
             concept_html_string = f.read()
-            components.html(concept_html_string, height=1000, width=1000)
+            components.html(concept_html_string, height=1500, width=1500)
 
     # now single author graph
     if st.sidebar.checkbox("Show Single Author Graph"):
@@ -585,7 +585,7 @@ if not st.session_state.simple_search_results.empty:
         # here the height must be integer!
         # Display HTML in Streamlit size of components should match network function above
         if len(selected_author) > 1:
-            components.html(author_html_string, height=1000, width=1000)
+            components.html(author_html_string, height=1500, width=1500)
 
 
     if st.sidebar.checkbox("Show Multi-Author Graph"):
