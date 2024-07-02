@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: black;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "group": 0, "id": "Renaissance", "label": "Renaissance", "shape": "dot", "size": 52}, {"font": {"color": "white"}, "group": 1, "id": "Gerson, Jean", "label": "Gerson, Jean", "shape": "dot", "size": 6}, {"font": {"color": "white"}, "group": 1, "id": "reception", "label": "reception", "shape": "dot", "size": 16}, {"font": {"color": "white"}, "group": 1, "id": "theory treatises", "label": "theory treatises", "shape": "dot", "size": 12}, {"font": {"color": "white"}, "group": 0, "id": "Europe", "label": "Europe", "shape": "dot", "size": 18}, {"font": {"color": "white"}, "group": 1, "id": "Faber Stapulensis, Jacobus", "label": "Faber Stapulensis, Jacobus", "shape": "dot", "size": 6}, {"font": {"color": "white"}, "group": 1, "id": "Volcyr de S\u00e9rouville, Nicole", "label": "Volcyr de S\u00e9rouville, Nicole", "shape": "dot", "size": 6}, {"font": {"color": "white"}, "group": 2, "id": "music theory", "label": "music theory", "shape": "dot", "size": 18}, {"font": {"color": "white"}, "group": 1, "id": "treatises", "label": "treatises", "shape": "dot", "size": 4}, {"font": {"color": "white"}, "group": 1, "id": "outside France", "label": "outside France", "shape": "dot", "size": 6}, {"font": {"color": "white"}, "group": 1, "id": "15th-16th c.", "label": "15th-16th c.", "shape": "dot", "size": 6}, {"font": {"color": "white"}, "group": 1, "id": "music theorists", "label": "music theorists", "shape": "dot", "size": 12}, {"font": {"color": "white"}, "group": 2, "id": "16th-17th c.", "label": "16th-17th c.", "shape": "dot", "size": 3}, {"font": {"color": "white"}, "group": 2, "id": "writings", "label": "writings", "shape": "dot", "size": 7}, {"font": {"color": "white"}, "group": 2, "id": "Baroque", "label": "Baroque", "shape": "dot", "size": 3}, {"font": {"color": "white"}, "group": 2, "id": "instrumental music", "label": "instrumental music", "shape": "dot", "size": 3}, {"font": {"color": "white"}, "group": 2, "id": "historiography", "label": "historiography", "shape": "dot", "size": 5}, {"font": {"color": "white"}, "group": 0, "id": "aesthetics", "label": "aesthetics", "shape": "dot", "size": 3}, {"font": {"color": "white"}, "group": 0, "id": "visual and plastic arts", "label": "visual and plastic arts", "shape": "dot", "size": 3}, {"font": {"color": "white"}, "group": 0, "id": "ca. 1470-ca. 1620", "label": "ca. 1470-ca. 1620", "shape": "dot", "size": 3}, {"font": {"color": "white"}, "group": 2, "id": "19th c.", "label": "19th c.", "shape": "dot", "size": 7}, {"font": {"color": "white"}, "group": 2, "id": "Romantic era", "label": "Romantic era", "shape": "dot", "size": 3}, {"font": {"color": "white"}, "group": 0, "id": "France", "label": "France", "shape": "dot", "size": 7}, {"font": {"color": "white"}, "group": 0, "id": "history of music", "label": "history of music", "shape": "dot", "size": 9}, {"font": {"color": "white"}, "group": 0, "id": "history and development", "label": "history and development", "shape": "dot", "size": 5}, {"font": {"color": "white"}, "group": 0, "id": "culture", "label": "culture", "shape": "dot", "size": 5}, {"font": {"color": "white"}, "group": 0, "id": "collecting", "label": "collecting", "shape": "dot", "size": 4}, {"font": {"color": "white"}, "group": 0, "id": "music books and instruments", "label": "music books and instruments", "shape": "dot", "size": 5}]);
+        edges = new vis.DataSet([{"from": "Renaissance", "to": "Gerson, Jean", "weight": 1}, {"from": "Renaissance", "to": "reception", "weight": 1}, {"from": "Renaissance", "to": "theory treatises", "weight": 1}, {"from": "Renaissance", "to": "Europe", "weight": 1}, {"from": "Renaissance", "to": "Faber Stapulensis, Jacobus", "weight": 1}, {"from": "Renaissance", "to": "Volcyr de S\u00e9rouville, Nicole", "weight": 1}, {"from": "Renaissance", "to": "music theory", "weight": 1}, {"from": "Renaissance", "to": "treatises", "weight": 1}, {"from": "Renaissance", "to": "outside France", "weight": 1}, {"from": "Renaissance", "to": "15th-16th c.", "weight": 1}, {"from": "Renaissance", "to": "music theorists", "weight": 1}, {"from": "Renaissance", "to": "16th-17th c.", "weight": 1}, {"from": "Renaissance", "to": "writings", "weight": 1}, {"from": "Renaissance", "to": "Baroque", "weight": 1}, {"from": "Renaissance", "to": "instrumental music", "weight": 1}, {"from": "Renaissance", "to": "historiography", "weight": 1}, {"from": "Renaissance", "to": "aesthetics", "weight": 1}, {"from": "Renaissance", "to": "visual and plastic arts", "weight": 1}, {"from": "Renaissance", "to": "ca. 1470-ca. 1620", "weight": 1}, {"from": "Renaissance", "to": "19th c.", "weight": 1}, {"from": "Renaissance", "to": "Romantic era", "weight": 1}, {"from": "Renaissance", "to": "France", "weight": 1}, {"from": "Renaissance", "to": "history of music", "weight": 1}, {"from": "Renaissance", "to": "history and development", "weight": 1}, {"from": "Renaissance", "to": "culture", "weight": 1}, {"from": "Renaissance", "to": "collecting", "weight": 1}, {"from": "Renaissance", "to": "music books and instruments", "weight": 1}, {"from": "reception", "to": "Gerson, Jean", "weight": 1}, {"from": "reception", "to": "theory treatises", "weight": 1}, {"from": "reception", "to": "Europe", "weight": 1}, {"from": "reception", "to": "Faber Stapulensis, Jacobus", "weight": 1}, {"from": "reception", "to": "Volcyr de S\u00e9rouville, Nicole", "weight": 1}, {"from": "reception", "to": "music theory", "weight": 1}, {"from": "reception", "to": "treatises", "weight": 1}, {"from": "reception", "to": "outside France", "weight": 1}, {"from": "reception", "to": "15th-16th c.", "weight": 1}, {"from": "reception", "to": "music theorists", "weight": 1}, {"from": "reception", "to": "19th c.", "weight": 1}, {"from": "reception", "to": "Romantic era", "weight": 1}, {"from": "reception", "to": "historiography", "weight": 1}, {"from": "reception", "to": "writings", "weight": 1}, {"from": "Gerson, Jean", "to": "theory treatises", "weight": 1}, {"from": "Gerson, Jean", "to": "Europe", "weight": 1}, {"from": "Gerson, Jean", "to": "Faber Stapulensis, Jacobus", "weight": 1}, {"from": "Gerson, Jean", "to": "Volcyr de S\u00e9rouville, Nicole", "weight": 1}, {"from": "Gerson, Jean", "to": "music theory", "weight": 1}, {"from": "Gerson, Jean", "to": "treatises", "weight": 1}, {"from": "Gerson, Jean", "to": "outside France", "weight": 1}, {"from": "Gerson, Jean", "to": "15th-16th c.", "weight": 1}, {"from": "Gerson, Jean", "to": "music theorists", "weight": 1}, {"from": "theory treatises", "to": "Europe", "weight": 1}, {"from": "theory treatises", "to": "Faber Stapulensis, Jacobus", "weight": 1}, {"from": "theory treatises", "to": "Volcyr de S\u00e9rouville, Nicole", "weight": 1}, {"from": "theory treatises", "to": "music theory", "weight": 1}, {"from": "theory treatises", "to": "treatises", "weight": 1}, {"from": "theory treatises", "to": "outside France", "weight": 1}, {"from": "theory treatises", "to": "15th-16th c.", "weight": 1}, {"from": "theory treatises", "to": "music theorists", "weight": 1}, {"from": "Europe", "to": "Faber Stapulensis, Jacobus", "weight": 1}, {"from": "Europe", "to": "Volcyr de S\u00e9rouville, Nicole", "weight": 1}, {"from": "Europe", "to": "music theory", "weight": 1}, {"from": "Europe", "to": "treatises", "weight": 1}, {"from": "Europe", "to": "outside France", "weight": 1}, {"from": "Europe", "to": "15th-16th c.", "weight": 1}, {"from": "Europe", "to": "music theorists", "weight": 1}, {"from": "Europe", "to": "visual and plastic arts", "weight": 1}, {"from": "Europe", "to": "ca. 1470-ca. 1620", "weight": 1}, {"from": "Europe", "to": "culture", "weight": 1}, {"from": "Europe", "to": "collecting", "weight": 1}, {"from": "Europe", "to": "music books and instruments", "weight": 1}, {"from": "Europe", "to": "history of music", "weight": 1}, {"from": "Europe", "to": "history and development", "weight": 1}, {"from": "Faber Stapulensis, Jacobus", "to": "Volcyr de S\u00e9rouville, Nicole", "weight": 1}, {"from": "Faber Stapulensis, Jacobus", "to": "music theory", "weight": 1}, {"from": "Faber Stapulensis, Jacobus", "to": "treatises", "weight": 1}, {"from": "Faber Stapulensis, Jacobus", "to": "outside France", "weight": 1}, {"from": "Faber Stapulensis, Jacobus", "to": "15th-16th c.", "weight": 1}, {"from": "Faber Stapulensis, Jacobus", "to": "music theorists", "weight": 1}, {"from": "Volcyr de S\u00e9rouville, Nicole", "to": "music theory", "weight": 1}, {"from": "Volcyr de S\u00e9rouville, Nicole", "to": "treatises", "weight": 1}, {"from": "Volcyr de S\u00e9rouville, Nicole", "to": "outside France", "weight": 1}, {"from": "Volcyr de S\u00e9rouville, Nicole", "to": "15th-16th c.", "weight": 1}, {"from": "Volcyr de S\u00e9rouville, Nicole", "to": "music theorists", "weight": 1}, {"from": "music theory", "to": "treatises", "weight": 1}, {"from": "music theory", "to": "outside France", "weight": 1}, {"from": "music theory", "to": "15th-16th c.", "weight": 1}, {"from": "music theory", "to": "music theorists", "weight": 1}, {"from": "music theory", "to": "16th-17th c.", "weight": 1}, {"from": "music theory", "to": "writings", "weight": 1}, {"from": "music theory", "to": "Baroque", "weight": 1}, {"from": "music theory", "to": "instrumental music", "weight": 1}, {"from": "music theory", "to": "historiography", "weight": 1}, {"from": "music theory", "to": "aesthetics", "weight": 1}, {"from": "music theory", "to": "history of music", "weight": 1}, {"from": "treatises", "to": "outside France", "weight": 1}, {"from": "treatises", "to": "15th-16th c.", "weight": 1}, {"from": "treatises", "to": "music theorists", "weight": 1}, {"from": "outside France", "to": "15th-16th c.", "weight": 1}, {"from": "outside France", "to": "music theorists", "weight": 1}, {"from": "15th-16th c.", "to": "music theorists", "weight": 1}, {"from": "music theorists", "to": "16th-17th c.", "weight": 1}, {"from": "music theorists", "to": "writings", "weight": 1}, {"from": "music theorists", "to": "Baroque", "weight": 1}, {"from": "music theorists", "to": "instrumental music", "weight": 1}, {"from": "music theorists", "to": "historiography", "weight": 1}, {"from": "16th-17th c.", "to": "writings", "weight": 1}, {"from": "16th-17th c.", "to": "Baroque", "weight": 1}, {"from": "16th-17th c.", "to": "instrumental music", "weight": 1}, {"from": "16th-17th c.", "to": "historiography", "weight": 1}, {"from": "writings", "to": "Baroque", "weight": 1}, {"from": "writings", "to": "instrumental music", "weight": 1}, {"from": "writings", "to": "historiography", "weight": 1}, {"from": "writings", "to": "19th c.", "weight": 1}, {"from": "writings", "to": "Romantic era", "weight": 1}, {"from": "Baroque", "to": "instrumental music", "weight": 1}, {"from": "Baroque", "to": "historiography", "weight": 1}, {"from": "instrumental music", "to": "historiography", "weight": 1}, {"from": "instrumental music", "to": "France", "weight": 1}, {"from": "instrumental music", "to": "history of music", "weight": 1}, {"from": "instrumental music", "to": "history and development", "weight": 1}, {"from": "historiography", "to": "19th c.", "weight": 1}, {"from": "historiography", "to": "Romantic era", "weight": 1}, {"from": "visual and plastic arts", "to": "ca. 1470-ca. 1620", "weight": 1}, {"from": "19th c.", "to": "Romantic era", "weight": 1}, {"from": "history of music", "to": "France", "weight": 1}, {"from": "history of music", "to": "history and development", "weight": 1}, {"from": "France", "to": "history and development", "weight": 1}, {"from": "history and development", "to": "culture", "weight": 1}, {"from": "culture", "to": "collecting", "weight": 1}, {"from": "culture", "to": "music books and instruments", "weight": 1}, {"from": "collecting", "to": "music books and instruments", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

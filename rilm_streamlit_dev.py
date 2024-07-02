@@ -3,7 +3,7 @@
 import streamlit as st 
 import pyvis.network as net
 import streamlit.components.v1 as components
-from stvis import pv_static
+# from stvis import pv_static
 
 import os
 # from decouple import AutoConfig # Install python-decouple
