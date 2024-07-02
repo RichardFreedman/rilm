@@ -31,7 +31,7 @@ from itertools import tee, combinations
 BASE = "https://api-ibis.rilm.org/200/haverford/"
 
 # # don't share the following!
-BEARER_TOKEN="47E96109-DC23-41E1-8295-377667F587DC"
+BEARER_TOKEN=""
 
 # BEARER_TOKEN = st.secrets['tk']
 # /Users/rfreedma/Documents/CRIM_Python/RILM/rilm_streamlit_dev
